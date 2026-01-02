@@ -1,0 +1,139 @@
+%examen 2018
+
+%% Exercice 1: Manipulation de matrice
+
+clc; clear; close all;
+
+%Q1
+
+A = (7*rand(10)+1);
+
+%Q2
+
+A(3:5,:) = 2;
+
+%Q3
+
+U = 5:5:(5*10);
+
+%Q4
+
+A(1,:) = U;
+
+%Q5
+
+V = cat(1,U',55);
+
+%Q6
+
+%Pour eviter des erreurs de difference de taille 
+
+A = cat(1,A,zeros([1 10]));
+
+A(:,1) = V;
+
+%Q7
+
+[lignes, collones] = size(A);
+
+%Q8
+
+A(A == 5) = 0;
+
+%Q9
+
+count2 = sum(sum(A == 2));
+
+%Q10
+
+%Pour eviter des erreurs de difference de taille 
+
+A = cat(2, A, zeros([11,1]));
+
+X = A(1,:);
+Y = A(:,10);
+
+figure();
+
+plot(X, Y, LineStyle=":");
+
+%Q11
+
+hold on
+
+plot(A(:,4), V, LineStyle="-", Color="r", Marker="*");
+
+%% Exercice 2: Image
+clc; clear; close all;
+%Q1
+
+I = imread("peppers.png");
+figure()
+imshow(I)
+
+%Q2
+
+%c'est une image rgb 384x512 uint8
+
+%Q3
+
+J = imread("cerise.jpg");
+figure();
+imshow(J);
+
+%Q4
+
+%c'est une image rgb 612x606 uint8
+
+%Q5
+
+K = imresize(J,[100 100]);
+
+%Q6
+
+figure();
+
+subplot(1,2,1);
+imshow(J);
+
+subplot(1,2,2);
+imshow(K);
+
+%Q7
+
+I(221:320,410:509,:) = K;
+
+%Q8
+
+T = imresize(I,0.5);
+
+%Q9
+
+P = T; Q = T; R = T;
+
+P(:,:,1) = zeros([size(P,1), size(P, 2)]);
+R(:,:,2) = zeros([size(R,1), size(R, 2)]);
+Q(:,:,3) = zeros([size(Q,1), size(Q, 2)]);
+
+%Q10
+
+figure();
+
+subplot(1,4,1);
+imshow(T);
+
+subplot(1,4,2);
+imshow(P);
+
+subplot(1,4,3);
+imshow(Q);
+
+subplot(1,4,4);
+imshow(R);
+
+%Q11
+
+S = zeros([192, 256*4, 3]);
+
+S = cat(2,T,P,Q,R);
+

@@ -1,0 +1,158 @@
+%Examen MATLAB 2019-2020
+
+%% Question 1 - Images et fonctions
+clc; clear; close all;
+
+%1)
+
+I = imread("cameraman.tif");
+figure();
+imshow(I);
+
+%2) Image en niveaux gris, taille 256x256 pixels, resolution de 8 bits (0 = noir et 255 = blanc)
+
+%3) Sur modifierImage.m
+
+%4)
+
+[J, nb_J] = modifierImage(I, 180, 100);
+
+disp(nb_J);
+
+%5)
+figure();
+imhist(I);
+hold on;
+imhist(J);
+
+%Les images sont presque le même, la majorité des pixels sur l'image sont
+%entre 0 et 25 et entre 100 et 190, en traçant les deus histogrammes un sur
+%autre, est possible regarder qu'il n'y a pas de pixels de valeur 180 sur J
+%et que a plus de pixels de valeur 255 en J que en I
+
+%6) 
+
+[P, nb_P] = modifierImage(I, 14, (50-14));
+figure();
+imshow(P);
+
+%7)
+
+I(1:16:end, :) = 255; 
+I(:, 1:16:end) = 255; 
+
+figure();
+imshow(I);
+
+%8) Sur quadrillerImage.m
+
+%9)
+gridImage = quadrillerImage(P, 20);
+figure();
+imshow(gridImage);
+
+%% Question 2 - Images et modifications
+clc; clear; close all;
+
+%1)
+
+I = imread('saturn.png');
+J = imread('ngc6543a.jpg');
+
+%2)
+
+Jextr = imcrop(J, [119 91 442 498]);
+
+%3)
+
+Jextr = imresize(Jextr, [280 350]);
+
+%4)
+
+K = uint8(zeros([(280*2) (350*2) 3]));
+
+K(1:280, 351:end, :) = Jextr;
+
+%5) Je compris pas
+
+%6)
+
+I = rgb2gray(I);
+
+%7)
+
+figure();
+
+subplot(1, 2, 1);
+imshow(I);
+
+subplot(1, 2, 2);
+imhist(I);
+
+% Majorité des pixels entre 0 et 15
+
+%8)
+
+I = I >= 100;
+
+%9)
+
+s = regionprops(I, 'Area', 'PixelList');
+size(s, 1);
+
+%10)
+regions = zeros(44);
+for i = 1:44
+    regions(i) = s(i).Area;
+end
+
+%11)
+
+Pixels = s.PixelList;
+Pixels = numel(Pixels);
+
+%% Exercice 3: Polynôme:
+clc;clear; close all;
+%1
+
+data =[ 0 200 1000 1300 1520 1600 2100 3800 5800 7100 10000 11000 12100 14800 18800 20000];
+temps = 0:4:60;
+
+
+figure();
+plot(temps, data);
+
+%2
+
+vecteur = 5000*ones([1 16]);
+
+%3
+
+hold on
+
+plot(temps,vecteur, "Color", "r", "LineStyle","-.");
+
+%4 - Entre 28 et 32
+
+%5
+
+data2 = polyfit(temps, data, 2);
+
+data4 = polyfit(temps, data, 4);
+
+data2 = polyval(data2, linspace(0,60));
+
+data4 = polyval(data4, linspace(0,60));
+
+figure();
+hold on;
+
+plot(linspace(0, 60), data2, 'g', 'LineWidth', 1.5);
+plot(linspace(0, 60), data4, 'b', 'LineWidth', 1.5);
+xlabel('Temps (minutes)');
+ylabel('Données');
+title('Ajustement polynomial des données');
+legend('Données', 'Ajustement 2ème degré', 'Ajustement 4ème degré');
+hold off;
+
+

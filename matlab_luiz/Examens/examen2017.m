@@ -1,0 +1,147 @@
+%Examen 2017
+
+%% Exercice 1: Image
+clc; clear; close all;
+
+%Q1
+
+I = imread("phantom.png");
+
+figure();
+imshow(I);
+
+%Q2
+
+%Image rgb 182x182 uint8
+
+%Q3
+
+Ig = rgb2gray(I);
+
+%Q4
+
+figure();
+subplot(1,2,1)
+
+imshow(Ig);
+title('Grayscale Image');
+subplot(1,2,2)
+imhist(Ig);
+title('Histogram of Grayscale Image');
+
+%Pixels majoritaires: 0 et 145
+
+%Q5
+
+figure();
+imhist(Ig(:,(182/2)));
+
+%Zones: gris du phantom, cercle gris-noir, cercle blanc, les bordures et le
+%noir dehors le phantom
+
+%Q6
+
+figure();
+imshow(Ig);
+hold on
+xline(91, Color='r');
+
+%Q7
+
+Ig((Ig>=80 & Ig<=125)) = 145;
+
+figure();
+imshow(Ig);
+
+%Q8
+
+B = randi(100,182,182,'uint8');
+figure();
+imshow(B);
+
+%Q9: Verifier dans ajouterBruit.m
+
+%Q10
+
+Ig = ajouterBruit(Ig,100);
+
+%Q11
+
+figure();
+subplot(1,2,1)
+
+imshow(Ig);
+title('Grayscale Image');
+subplot(1,2,2)
+imhist(Ig);
+title('Histogram of Grayscale Image');
+
+%Commentaires: l'image est completment bruité et l'histogramme ne nous donne plus d'informations relevants pour les structures d'interet
+
+%% Exercice 2: Lecture matrice et affichage de data
+clc; clear; close all;
+
+D = load('data.txt');
+
+%Q1
+
+[lig, col] = size(D);
+%Q2
+
+tps = linspace(0,1,lig);
+
+%Q3
+
+figure();
+subplot(1,2,1)
+
+plot(tps, D(:,1), "Color","r");
+hold on;
+plot(tps, D(:,2), "Color","g");
+plot(tps, D(:,3), "Color","b");
+xlabel('Time (s)');
+ylabel('Data Values');
+title('Data Plot');
+legend('Debit 1', 'Debit 2', 'Debit 3');
+hold off;
+
+subplot(1,2,2)
+
+plot(tps, D(:,4), "Color","r");
+hold on;
+plot(tps, D(:,5), "Color","g");
+plot(tps, D(:,6), "Color","b");
+xlabel('Time (s)');
+ylabel('Data Values');
+title('Data Plot');
+legend('Pression 1', 'Pression 2', 'Pression 3');
+hold off;
+
+%Q4
+
+figure();
+plot(tps, D(:,1), "Color",[0 0 0]);
+grid on
+
+%Q5
+
+vmoy = mean(D(:,1));
+
+%Q6
+
+figure();
+plot(tps, D(:,1), "Color",[0 0 0]);
+grid on
+hold on
+plot(tps, vmoy.*ones(lig), "Color","b", LineStyle="--");
+
+%Q7
+
+debit1 = D(:,1);
+debit1(debit1 < 0) = 0;
+
+%Q8
+
+plot(tps, debit1, "Color","r");
+
+%% Exercice 3: Fonction 
